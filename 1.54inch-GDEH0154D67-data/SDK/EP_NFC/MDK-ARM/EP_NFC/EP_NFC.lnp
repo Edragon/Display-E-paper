@@ -1,0 +1,27 @@
+--cpu Cortex-M0+
+"ep_nfc\startup_stm32l051xx.o"
+"ep_nfc\main.o"
+"ep_nfc\stm32l0xx_it.o"
+"ep_nfc\stm32l0xx_hal_msp.o"
+"ep_nfc\epaper.o"
+"ep_nfc\stm32l0xx_hal_tim.o"
+"ep_nfc\stm32l0xx_hal_tim_ex.o"
+"ep_nfc\stm32l0xx_hal.o"
+"ep_nfc\stm32l0xx_hal_i2c.o"
+"ep_nfc\stm32l0xx_hal_i2c_ex.o"
+"ep_nfc\stm32l0xx_hal_rcc.o"
+"ep_nfc\stm32l0xx_hal_rcc_ex.o"
+"ep_nfc\stm32l0xx_hal_flash_ramfunc.o"
+"ep_nfc\stm32l0xx_hal_flash.o"
+"ep_nfc\stm32l0xx_hal_flash_ex.o"
+"ep_nfc\stm32l0xx_hal_gpio.o"
+"ep_nfc\stm32l0xx_hal_dma.o"
+"ep_nfc\stm32l0xx_hal_pwr.o"
+"ep_nfc\stm32l0xx_hal_pwr_ex.o"
+"ep_nfc\stm32l0xx_hal_cortex.o"
+"ep_nfc\stm32l0xx_hal_exti.o"
+"ep_nfc\system_stm32l0xx.o"
+--library_type=microlib --strict --scatter "EP_NFC\EP_NFC.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "EP_NFC.map" -o EP_NFC\EP_NFC.axf
