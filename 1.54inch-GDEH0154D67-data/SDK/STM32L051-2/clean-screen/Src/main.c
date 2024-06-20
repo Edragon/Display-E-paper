@@ -22,7 +22,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 #include "EPAPER.h" 
 #include "picture.h"
 
@@ -96,61 +95,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	
-	//Full screen refresh
+	  	//Full screen refresh
 	///////////////////////////////////////////第一屏   全刷方式刷新整张图片
 			EPD_HW_Init(); 													//Electronic paper initialization
 			EPD_WhiteScreen_ALL(gImage_1); 					//Refresh the picture in full screen
 			EPD_DeepSleep();  											//Enter deep sleep	
-		driver_delay_xms(1500);
+		  driver_delay_xms(1500);
 
 	///////////////////////////////////////////第二屏	  全刷方式刷新背景图片
 			EPD_HW_Init(); 													//Electronic paper initialization	
-		EPD_SetRAMValue_BaseMap(gImage_basemap);//Partial refresh background（注意：此处刷背景图片的函数和全刷图片的函数不一样）
+		  EPD_SetRAMValue_BaseMap(gImage_basemap);//Partial refresh background（注意：此处刷背景图片的函数和全刷图片的函数不一样）
 			EPD_DeepSleep();  											//Enter deep sleep		
 			driver_delay_xms(500);	
-		
-	///////////////////////////////////////////第三屏   局刷“温度”负显，51.9°C
-
-	//注意：单个图片刷新的时候，数据发送完直接执行 EPD_Part_Update();
-	//      多个图标一起刷新的时候，所有数据全都发送完毕，一次性执行 EPD_Part_Update();
-		
-			EPD_HW_Init(); 												 //Electronic paper initialization
-																												//    y         x       显示内容     显示宽度     显示高度     显示模式		
-			EPD_Dis_Part(6,56,gImage_temperature,17,32,NEG); 	//    6        56         温度          17           32			     负显
-			EPD_Dis_Part(178,56,gImage_humidity,17,32,OFF); 	//  178        56         湿度          17           32		       OFF	
-			
-			EPD_Dis_Part(31,56,gImage_Lnum5,46,88,POS); 	 		//   31        56       大数字5         46           88			     正显
-			EPD_Dis_Part(80,56,gImage_Lnum1,46,88,POS);		 		//   80        56       大数字1         46           88			     正显
-			EPD_Dis_Part(129,136,gImage_dot,8,8,POS); 		 		//  129       136       小数点           8            8					 正显
-			EPD_Dis_Part(140,88,SNum9,29,56,POS); 	 			 		//  140        88       小数字9         29           56				   正显
-			EPD_Dis_Part(142,56,gImage_Celsius,26,24,POS); 		//  142        56         °C            26           24		  		 正显
-
-			EPD_Part_Update();
-			EPD_DeepSleep();  										 //Enter deep sleep			
-		  driver_delay_xms(1500);		
-			
-	///////////////////////////////////////////第四屏   局刷“湿度”负显，60.2%
-	//采用局刷方式连续刷新多个显示界面的时候，从休眠状态唤醒只需要硬件复位就可以，无需重新初始化。
-
-			EPD_W21_Init();												//hard reset
-																												//    y         x       显示内容     显示宽度     显示高度     显示模式				
-			EPD_Dis_Part(6,56,gImage_temperature,17,32,OFF);  //    6        56         温度          17           32			     OFF
-			EPD_Dis_Part(178,56,gImage_humidity,17,32,NEG); 	//  178        56         湿度          17           32		       负显
-
-			EPD_Dis_Part(31,56,gImage_Lnum6,46,88,POS); 	 		//   31        56       大数字6         46           88			     正显
-			EPD_Dis_Part(80,56,gImage_Lnum0,46,88,POS);		 		//   80        56       大数字0         46           88			     正显
-			EPD_Dis_Part(129,136,gImage_dot,8,8,OFF); 		 		//  129       136       小数点           8            8					 正显
-			EPD_Dis_Part(140,88,SNum9,29,56,OFF); 	 			 		//  140        88       小数字9         29           56				   OFF
-			EPD_Dis_Part(142,56,gImage_Celsius,26,24,OFF); 		//  142        56         °C            26           24		  		 OFF
-			EPD_Dis_Part(129,104,gImage_dot,8,8,POS); 		 		//  129       104       小数点           8            8		  		 正显
-			EPD_Dis_Part(140,56,SNum2,29,56,POS); 	 			 		//  140        56       小数字2         29           56		  		 正显
-		  EPD_Dis_Part(139,120,gImage_Percent,31,24,POS);		//  139       120          %            31           24		  		 正显
-
-			EPD_Part_Update();
-			EPD_DeepSleep();  									 //Enter deep sleep			
-		  driver_delay_xms(1500);		
 
 	///////////////////////////////////////////第五屏   清屏（清屏务必采用全刷方式）
 
@@ -158,37 +114,8 @@ int main(void)
 			EPD_WhiteScreen_White();  					//Show all white
 			EPD_DeepSleep();  									//Enter deep sleep		
 			
-	//////////////////////Partial screen refresh/////////////////////////////////////
-	///////////////////////////////////////////第六屏   局刷方式刷新整张图片
+    /* USER CODE END WHILE */
 
-		  EPD_HW_Init(); //Electronic paper initialization	
-																												//    y         x       显示内容     显示宽度     显示高度     显示模式				
-		  EPD_Dis_Part(0,0,gImage_1,200,200,POS); 					//    0         0        图片1         200          200		       正显
-			EPD_Part_Update();	
-			EPD_DeepSleep();  //Enter deep sleep					
-		  driver_delay_xms(1000);	
-
-	///////////////////////////////////////////第七屏   局刷方式刷新整张图片
-
-			EPD_W21_Init();											//hard reset
-																												//    y         x       显示内容     显示宽度     显示高度     显示模式						
-		  EPD_Dis_Part(0,0,gImage_basemap,200,200,POS); 		//    0         0       背景图片       200          200		       正显
-			EPD_Part_Update();		
-			EPD_DeepSleep();  									//Enter deep sleep		
-		  driver_delay_xms(1500);	
-			
-	////////////////////////////////////////////////////////////////////////	
-	///////////////////////////////////////////第八屏   清屏
-
-			EPD_HW_Init(); 											//Electronic paper initialization
-			EPD_WhiteScreen_White(); 						//Show all white
-			EPD_DeepSleep();  									//Enter deep sleep
-			while(1);		
-
-	
-	//注意：屏幕刷新完毕必须进入休眠。
-	///////////////////////////////////////////////////////////
-	
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -249,26 +176,26 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_RST_Pin|INK_DC_Pin|INK_MOSI_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, INK_DC_Pin|INK_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, INK_CS_Pin|INK_CLK_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_Pin INK_MOSI_Pin INK_CLK_Pin INK_CS_Pin */
-  GPIO_InitStruct.Pin = LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin;
+  /*Configure GPIO pins : LED_Pin INK_RST_Pin INK_DC_Pin INK_MOSI_Pin */
+  GPIO_InitStruct.Pin = LED_Pin|INK_RST_Pin|INK_DC_Pin|INK_MOSI_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ST25_INT_Pin INK_BUSY_Pin */
-  GPIO_InitStruct.Pin = ST25_INT_Pin|INK_BUSY_Pin;
+  /*Configure GPIO pins : ST25_GPO_Pin INK_BUSY_Pin */
+  GPIO_InitStruct.Pin = ST25_GPO_Pin|INK_BUSY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : INK_DC_Pin INK_RST_Pin */
-  GPIO_InitStruct.Pin = INK_DC_Pin|INK_RST_Pin;
+  /*Configure GPIO pins : INK_CS_Pin INK_CLK_Pin */
+  GPIO_InitStruct.Pin = INK_CS_Pin|INK_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

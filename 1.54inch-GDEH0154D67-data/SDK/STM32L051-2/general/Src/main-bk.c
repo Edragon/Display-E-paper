@@ -23,9 +23,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "EPAPER.h" 
-#include "picture.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,7 +94,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	
 	//Full screen refresh
 	///////////////////////////////////////////第一屏   全刷方式刷新整张图片
 			EPD_HW_Init(); 													//Electronic paper initialization
@@ -129,7 +125,7 @@ int main(void)
 
 			EPD_Part_Update();
 			EPD_DeepSleep();  										 //Enter deep sleep			
-		  driver_delay_xms(1500);		
+		driver_delay_xms(1500);		
 			
 	///////////////////////////////////////////第四屏   局刷“湿度”负显，60.2%
 	//采用局刷方式连续刷新多个显示界面的时候，从休眠状态唤醒只需要硬件复位就可以，无需重新初始化。
@@ -146,11 +142,11 @@ int main(void)
 			EPD_Dis_Part(142,56,gImage_Celsius,26,24,OFF); 		//  142        56         °C            26           24		  		 OFF
 			EPD_Dis_Part(129,104,gImage_dot,8,8,POS); 		 		//  129       104       小数点           8            8		  		 正显
 			EPD_Dis_Part(140,56,SNum2,29,56,POS); 	 			 		//  140        56       小数字2         29           56		  		 正显
-		  EPD_Dis_Part(139,120,gImage_Percent,31,24,POS);		//  139       120          %            31           24		  		 正显
+		EPD_Dis_Part(139,120,gImage_Percent,31,24,POS);		//  139       120          %            31           24		  		 正显
 
 			EPD_Part_Update();
 			EPD_DeepSleep();  									 //Enter deep sleep			
-		  driver_delay_xms(1500);		
+		driver_delay_xms(1500);		
 
 	///////////////////////////////////////////第五屏   清屏（清屏务必采用全刷方式）
 
@@ -161,7 +157,7 @@ int main(void)
 	//////////////////////Partial screen refresh/////////////////////////////////////
 	///////////////////////////////////////////第六屏   局刷方式刷新整张图片
 
-		  EPD_HW_Init(); //Electronic paper initialization	
+		EPD_HW_Init(); //Electronic paper initialization	
 																												//    y         x       显示内容     显示宽度     显示高度     显示模式				
 		  EPD_Dis_Part(0,0,gImage_1,200,200,POS); 					//    0         0        图片1         200          200		       正显
 			EPD_Part_Update();	
@@ -175,7 +171,7 @@ int main(void)
 		  EPD_Dis_Part(0,0,gImage_basemap,200,200,POS); 		//    0         0       背景图片       200          200		       正显
 			EPD_Part_Update();		
 			EPD_DeepSleep();  									//Enter deep sleep		
-		  driver_delay_xms(1500);	
+		driver_delay_xms(1500);	
 			
 	////////////////////////////////////////////////////////////////////////	
 	///////////////////////////////////////////第八屏   清屏
@@ -185,10 +181,10 @@ int main(void)
 			EPD_DeepSleep();  									//Enter deep sleep
 			while(1);		
 
-	
+	}
 	//注意：屏幕刷新完毕必须进入休眠。
 	///////////////////////////////////////////////////////////
-	
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -249,23 +245,26 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin
+                          |INK_BUSY_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, INK_DC_Pin|INK_RST_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_Pin INK_MOSI_Pin INK_CLK_Pin INK_CS_Pin */
-  GPIO_InitStruct.Pin = LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin;
+  /*Configure GPIO pins : LED_Pin INK_MOSI_Pin INK_CLK_Pin INK_CS_Pin
+                           INK_BUSY_Pin */
+  GPIO_InitStruct.Pin = LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin
+                          |INK_BUSY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ST25_INT_Pin INK_BUSY_Pin */
-  GPIO_InitStruct.Pin = ST25_INT_Pin|INK_BUSY_Pin;
+  /*Configure GPIO pin : ST25_INT_Pin */
+  GPIO_InitStruct.Pin = ST25_INT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(ST25_INT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : INK_DC_Pin INK_RST_Pin */
   GPIO_InitStruct.Pin = INK_DC_Pin|INK_RST_Pin;

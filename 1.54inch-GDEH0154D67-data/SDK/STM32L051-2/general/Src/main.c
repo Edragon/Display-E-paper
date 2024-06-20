@@ -22,7 +22,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 #include "EPAPER.h" 
 #include "picture.h"
 
@@ -96,18 +95,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	
-	//Full screen refresh
+	  	//Full screen refresh
 	///////////////////////////////////////////第一屏   全刷方式刷新整张图片
 			EPD_HW_Init(); 													//Electronic paper initialization
 			EPD_WhiteScreen_ALL(gImage_1); 					//Refresh the picture in full screen
 			EPD_DeepSleep();  											//Enter deep sleep	
-		driver_delay_xms(1500);
+		  driver_delay_xms(1500);
 
 	///////////////////////////////////////////第二屏	  全刷方式刷新背景图片
 			EPD_HW_Init(); 													//Electronic paper initialization	
-		EPD_SetRAMValue_BaseMap(gImage_basemap);//Partial refresh background（注意：此处刷背景图片的函数和全刷图片的函数不一样）
+		  EPD_SetRAMValue_BaseMap(gImage_basemap);//Partial refresh background（注意：此处刷背景图片的函数和全刷图片的函数不一样）
 			EPD_DeepSleep();  											//Enter deep sleep		
 			driver_delay_xms(500);	
 		
@@ -188,7 +185,8 @@ int main(void)
 	
 	//注意：屏幕刷新完毕必须进入休眠。
 	///////////////////////////////////////////////////////////
-	
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -249,26 +247,26 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_Pin|INK_RST_Pin|INK_DC_Pin|INK_MOSI_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, INK_DC_Pin|INK_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, INK_CS_Pin|INK_CLK_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_Pin INK_MOSI_Pin INK_CLK_Pin INK_CS_Pin */
-  GPIO_InitStruct.Pin = LED_Pin|INK_MOSI_Pin|INK_CLK_Pin|INK_CS_Pin;
+  /*Configure GPIO pins : LED_Pin INK_RST_Pin INK_DC_Pin INK_MOSI_Pin */
+  GPIO_InitStruct.Pin = LED_Pin|INK_RST_Pin|INK_DC_Pin|INK_MOSI_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ST25_INT_Pin INK_BUSY_Pin */
-  GPIO_InitStruct.Pin = ST25_INT_Pin|INK_BUSY_Pin;
+  /*Configure GPIO pins : ST25_GPO_Pin INK_BUSY_Pin */
+  GPIO_InitStruct.Pin = ST25_GPO_Pin|INK_BUSY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : INK_DC_Pin INK_RST_Pin */
-  GPIO_InitStruct.Pin = INK_DC_Pin|INK_RST_Pin;
+  /*Configure GPIO pins : INK_CS_Pin INK_CLK_Pin */
+  GPIO_InitStruct.Pin = INK_CS_Pin|INK_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
